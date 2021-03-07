@@ -1,4 +1,4 @@
-# covid19_survey_app
+# Covid 19 Mobile Survey App
 
 A new Flutter application.
 
