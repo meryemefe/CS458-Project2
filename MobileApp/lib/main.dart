@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(SurveyApp());
@@ -29,10 +30,91 @@ class SurveyForm extends StatefulWidget {
   @override
   _SurveyFormState createState() => _SurveyFormState();
 }
+class CustomRow extends StatefulWidget {
+  String emptyValue;
+  final Function validator;
+  List<String> items;
+  CustomRow({this.emptyValue, this.validator, this.items});
+  @override
+  _CustomRowState createState() => _CustomRowState(emptyValue: emptyValue, validator: validator, items: items);
+}
+/*
+* (String value){
+              if (value == 'Select a gender'){
+                return 'Please select a gender';
+              }else{
+                return null;
+              }
+            },
+            *
+            *
+            *
+            * <String>[
+              'Select a gender',
+              'Male',
+              'Female'
+            ]
+* */
+class _CustomRowState extends State<CustomRow>{
+  String emptyValue;
+  String chosenValue;
+  final Function validator;
+  List<String> items;
+//  'Select a gender',
+//  'Male',
+//  'Female'
+//  ];
+  _CustomRowState({this.emptyValue, this.validator, this.items});
+  @override
+  Widget build(BuildContext context){
+    //chosenValue = emptyValue;
+    chosenValue = emptyValue;
+    return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>  [Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(4.0),
+          margin: const EdgeInsets.only(left: 10.0),
+          width: MediaQuery.of(context).size.width - 20,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            border: Border.all(color: Colors.black),
+            color: Colors.white,
+          ),
+          child: DropdownButtonFormField<String>(
+            isExpanded: true,
+            focusColor:Colors.white,
+            value: chosenValue,
+            style: TextStyle(color: Colors.white),
+            iconEnabledColor:Colors.black,
+            items: items.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value,style:TextStyle(color:Colors.black),),
+              );
+            }).toList(),
+//            hint:Text(
+//              "Please choose a langauage",
+//              style: TextStyle(
+//                  color: Colors.black,
+//                  fontSize: 14,
+//                  fontWeight: FontWeight.w500),
+//            ),
+            validator: validator,
+            onChanged: (String value) {
+              setState(() {
+                chosenValue = value;
+              });
+            },
+          ),
+        ),]
+    );
+  }
+}
 
 class _SurveyFormState extends State<SurveyForm> {
   final _surveyFormKey = GlobalKey<FormState>();
-  String _chosenValue = 'Select a gender';
+
   @override
   Widget build(BuildContext context) {
     final halfScreenWidth = MediaQuery.of(context).size.width / 2.0;
@@ -104,56 +186,14 @@ class _SurveyFormState extends State<SurveyForm> {
             hintText: "City",
             validator: null,
           ),
-          Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>  [Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(4.0),
-              margin: const EdgeInsets.only(left: 10.0),
-              width: MediaQuery.of(context).size.width - 20,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                border: Border.all(color: Colors.black),
-                color: Colors.white,
-              ),
-              child: DropdownButtonFormField<String>(
-                isExpanded: true,
-                focusColor:Colors.white,
-                value: _chosenValue,
-                style: TextStyle(color: Colors.white),
-                iconEnabledColor:Colors.black,
-                items: <String>[
-                  'Select a gender',
-                  'Male',
-                  'Female'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value,style:TextStyle(color:Colors.black),),
-                  );
-                }).toList(),
-                hint:Text(
-                  "Please choose a langauage",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500),
-                ),
-                validator: (String value){
-                  if (value == 'Select a gender'){
-                    return 'Please select a gender';
-                  }else{
-                    return null;
-                  }
-                },
-                onChanged: (String value) {
-                  setState(() {
-                    _chosenValue = value;
-                  });
-                },
-              ),
-            ),]
-          ),
+          CustomRow(
+              emptyValue:'Please select a gender',
+              validator: (String value) =>  (value == 'Please select a gender') ? 'Please select a gender' : null,
+              items: ['Please select a gender','Male', 'Female']),
+          CustomRow(
+              emptyValue:'Please select a vaccine',
+              validator: (String value) =>  (value == 'Please select a vaccine') ? 'Please select a vaccine' : null,
+              items: ['Please select a vaccine','Germany', 'China', 'US', 'Turkey']),
           CustomTextFormField(
             hintText: "Gender", // BURAYA DROPDOWN KOYULACAK MALE FEMALE OTHER
             validator: null,
