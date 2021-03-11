@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
@@ -31,7 +32,7 @@ class SurveyForm extends StatefulWidget {
 
 class _SurveyFormState extends State<SurveyForm> {
   final _surveyFormKey = GlobalKey<FormState>();
-
+  String _chosenValue = 'Select a gender';
   @override
   Widget build(BuildContext context) {
     final halfScreenWidth = MediaQuery.of(context).size.width / 2.0;
@@ -102,6 +103,56 @@ class _SurveyFormState extends State<SurveyForm> {
           CustomTextFormField( // BURAYA CITY LİSTE ŞEKLİNDE KONULABİLİR VEYA TEXT
             hintText: "City",
             validator: null,
+          ),
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>  [Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(4.0),
+              margin: const EdgeInsets.only(left: 10.0),
+              width: MediaQuery.of(context).size.width - 20,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                border: Border.all(color: Colors.black),
+                color: Colors.white,
+              ),
+              child: DropdownButtonFormField<String>(
+                isExpanded: true,
+                focusColor:Colors.white,
+                value: _chosenValue,
+                style: TextStyle(color: Colors.white),
+                iconEnabledColor:Colors.black,
+                items: <String>[
+                  'Select a gender',
+                  'Male',
+                  'Female'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value,style:TextStyle(color:Colors.black),),
+                  );
+                }).toList(),
+                hint:Text(
+                  "Please choose a langauage",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                ),
+                validator: (String value){
+                  if (value == 'Select a gender'){
+                    return 'Please select a gender';
+                  }else{
+                    return null;
+                  }
+                },
+                onChanged: (String value) {
+                  setState(() {
+                    _chosenValue = value;
+                  });
+                },
+              ),
+            ),]
           ),
           CustomTextFormField(
             hintText: "Gender", // BURAYA DROPDOWN KOYULACAK MALE FEMALE OTHER
