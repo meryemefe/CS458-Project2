@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
@@ -30,51 +31,41 @@ class SurveyForm extends StatefulWidget {
   @override
   _SurveyFormState createState() => _SurveyFormState();
 }
-class CustomRow extends StatefulWidget {
-  String emptyValue;
-  final Function validator;
+
+class DropDown{
+  String defaultValue;
   List<String> items;
-  CustomRow({this.emptyValue, this.validator, this.items});
-  @override
-  _CustomRowState createState() => _CustomRowState(emptyValue: emptyValue, validator: validator, items: items);
+  final Function validator;
+  DropDown({this.defaultValue, this.validator, this.items});
 }
-/*
-* (String value){
-              if (value == 'Select a gender'){
-                return 'Please select a gender';
-              }else{
-                return null;
-              }
-            },
-            *
-            *
-            *
-            * <String>[
-              'Select a gender',
-              'Male',
-              'Female'
-            ]
-* */
-class _CustomRowState extends State<CustomRow>{
-  String emptyValue;
+class CustomDropDown extends StatefulWidget{
+  DropDown content;
+  Key key;
+  CustomDropDown({this.key, this.content});
+  @override
+  _CustomDropDownState createState() => _CustomDropDownState(content);
+}
+
+class _CustomDropDownState extends State<CustomDropDown> {
+  String defaultValue;
   String chosenValue;
-  final Function validator;
+  Function validator;
   List<String> items;
-//  'Select a gender',
-//  'Male',
-//  'Female'
-//  ];
-  _CustomRowState({this.emptyValue, this.validator, this.items});
+
+  _CustomDropDownState(DropDown _content){
+    defaultValue = _content.defaultValue;
+    chosenValue = _content.defaultValue;
+    validator = _content.validator;
+    items = _content.items;
+  }
   @override
   Widget build(BuildContext context){
-    //chosenValue = emptyValue;
-    chosenValue = emptyValue;
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>  [Container(
           alignment: Alignment.center,
           padding: EdgeInsets.all(4.0),
-          margin: const EdgeInsets.only(left: 10.0),
+          margin: const EdgeInsets.only(left: 10.0, top: 8.0),
           width: MediaQuery.of(context).size.width - 20,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
@@ -93,13 +84,6 @@ class _CustomRowState extends State<CustomRow>{
                 child: Text(value,style:TextStyle(color:Colors.black),),
               );
             }).toList(),
-//            hint:Text(
-//              "Please choose a langauage",
-//              style: TextStyle(
-//                  color: Colors.black,
-//                  fontSize: 14,
-//                  fontWeight: FontWeight.w500),
-//            ),
             validator: validator,
             onChanged: (String value) {
               setState(() {
@@ -110,14 +94,110 @@ class _CustomRowState extends State<CustomRow>{
         ),]
     );
   }
+
+  void printValue(){
+    print(chosenValue);
+  }
+
+  void reset(){
+    setState(() {
+      chosenValue = defaultValue;
+    });
+  }
+
 }
 
 class _SurveyFormState extends State<SurveyForm> {
   final _surveyFormKey = GlobalKey<FormState>();
+  bool dataSent = false;
+  String sendDataLine = "Your data is sent";
 
+  GlobalKey<_CustomDropDownState> _genderKey = GlobalKey();
+  GlobalKey<_CustomDropDownState> _vaccineKey = GlobalKey();
+
+
+
+  void resetForm(List<CustomTextFormField> customForms){
+    _genderKey.currentState.reset();
+    _vaccineKey.currentState.reset();
+    for(CustomTextFormField field in customForms){
+      field.reset();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final halfScreenWidth = MediaQuery.of(context).size.width / 2.0;
+
+
+    DropDown genderDD = new DropDown(
+        defaultValue:'Please select a gender',
+        validator: (String value) =>  (value == 'Please select a gender') ? 'Please select a gender' : null,
+        items: ['Please select a gender','Male', 'Female']);
+    DropDown vaccineDD = new DropDown(
+        defaultValue:'Please select a vaccine',
+        validator: (String value) =>  (value == 'Please select a vaccine') ? 'Please select a vaccine' : null,
+        items: ['Please select a vaccine','Germany', 'China', 'US', 'Turkey']);
+
+    List<CustomTextFormField> customForms = [];
+
+    CustomTextFormField nameWidget = new CustomTextFormField(
+            hintText: "Name",
+            validator: (String value) {
+              if (value.isEmpty) {
+                return 'Name cannot be empty.';
+              } else {
+                return null;
+              }
+            },
+        );
+    CustomTextFormField cityWidget = new CustomTextFormField( // BURAYA CITY LİSTE ŞEKLİNDE KONULABİLİR VEYA TEXT
+      hintText: "City",
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Name cannot be empty.';
+        } else {
+          return null;
+        }
+      },
+    );
+    CustomTextFormField surnameWidget  = new CustomTextFormField(
+      hintText: "Surname",
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Surname cannot be empty.';
+        } else {
+          return null;
+        }
+      },
+    );
+    FormField dateWidget = new DateTimeFormField(
+      decoration: const InputDecoration(
+        hintStyle: TextStyle(color: Colors.black45),
+        errorStyle: TextStyle(color: Colors.redAccent),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12.0))
+        ),
+        suffixIcon: Icon(Icons.event_note),
+        labelText: "Birth Date",
+        contentPadding: EdgeInsets.all(12),
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      mode: DateTimeFieldPickerMode.date,
+      autovalidateMode: AutovalidateMode.always,
+      validator: (e) => (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
+      onDateSelected: (DateTime value) {
+        //print(value);
+      },
+    );
+
+
+    GlobalKey _dataSentKey = GlobalKey();
+
+    customForms.add(cityWidget);
+    customForms.add(nameWidget);
+    customForms.add(surnameWidget);
+
 
     return Form(
       key: _surveyFormKey,
@@ -129,78 +209,36 @@ class _SurveyFormState extends State<SurveyForm> {
               Container(
                 alignment: Alignment.topLeft,
                 width: halfScreenWidth,
-                child: CustomTextFormField(
-                  hintText: "Name",
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Name cannot be empty.';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
+                child: nameWidget,
               ),
               Container(
                 alignment: Alignment.topRight,
                 width: halfScreenWidth,
-                child: CustomTextFormField(
-                  hintText: "Surname",
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Surname cannot be empty.';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
+                child: surnameWidget,
               ),
             ],
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Container(
-              child: DateTimeFormField(
-                decoration: const InputDecoration(
-                  hintStyle: TextStyle(color: Colors.black45),
-                  errorStyle: TextStyle(color: Colors.redAccent),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12.0))
-                  ),
-                  suffixIcon: Icon(Icons.event_note),
-                  labelText: "Birth Date",
-                  contentPadding: EdgeInsets.all(12),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                mode: DateTimeFieldPickerMode.date,
-                autovalidateMode: AutovalidateMode.always,
-                validator: (e) => (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-                onDateSelected: (DateTime value) {
-                  print(value);
-                },
-              ),
+              child: dateWidget,
             ),
           ),
 
-          CustomTextFormField( // BURAYA CITY LİSTE ŞEKLİNDE KONULABİLİR VEYA TEXT
-            hintText: "City",
-            validator: null,
-          ),
-          CustomRow(
-              emptyValue:'Please select a gender',
-              validator: (String value) =>  (value == 'Please select a gender') ? 'Please select a gender' : null,
-              items: ['Please select a gender','Male', 'Female']),
-          CustomRow(
-              emptyValue:'Please select a vaccine',
-              validator: (String value) =>  (value == 'Please select a vaccine') ? 'Please select a vaccine' : null,
-              items: ['Please select a vaccine','Germany', 'China', 'US', 'Turkey']),
-          CustomTextFormField(
-            hintText: "Gender", // BURAYA DROPDOWN KOYULACAK MALE FEMALE OTHER
-            validator: null,
-          ),
-          CustomTextFormField( // BELLİ AŞI TİPLERİ LİSTE ŞEKLİNDE KOYULABİLİR
-            hintText: "Vaccine type they applied",
-          ),
+          cityWidget,
+          CustomDropDown(
+              key: _genderKey,
+              content: genderDD),
+          CustomDropDown(
+              key: _vaccineKey,
+              content: vaccineDD),
+//          CustomTextFormField(
+//            hintText: "Gender", // BURAYA DROPDOWN KOYULACAK MALE FEMALE OTHER
+//            validator: null,
+//          ),
+//          CustomTextFormField( // BELLİ AŞI TİPLERİ LİSTE ŞEKLİNDE KOYULABİLİR
+//            hintText: "Vaccine type they applied",
+//          ),
           CustomTextFormField( // TEXT BOX BÜYÜTÜLEBİLİR
             hintText: "Side effect after vaccination",
           ),
@@ -217,8 +255,36 @@ class _SurveyFormState extends State<SurveyForm> {
               ),
             ),
             onPressed: () async {
-              if (_surveyFormKey.currentState.validate()) {}
+
+              if (_surveyFormKey.currentState.validate()) {
+                setState(() {
+                  dataSent = true;
+                  if (_vaccineKey.currentState.chosenValue == 'Germany'){
+                    sendDataLine = "Ihre Daten werden gesendet!";
+                  }else if (_vaccineKey.currentState.chosenValue == 'China'){
+                    sendDataLine = "Nín de shùjù yǐ fāsòng!";
+                  }else if (_vaccineKey.currentState.chosenValue == 'Turkey'){
+                    sendDataLine = "Bilgileriniz gönderildi!";
+                  } else {
+                    sendDataLine = "Your data is sent!";
+                  }
+                  resetForm(customForms);
+                });
+              }else {
+                // invalidate
+                setState(() {
+                  sendDataLine = "";
+                });
+              }
             },
+          ),
+          Offstage (
+            key: _dataSentKey,
+            offstage: !dataSent,
+            child: Container(
+                padding: EdgeInsets.all(8.0),
+                child: Text(sendDataLine,
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),) ),
           ),
         ],
       )
@@ -229,17 +295,23 @@ class _SurveyFormState extends State<SurveyForm> {
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final Function validator;
+  var content = TextEditingController();
+  Key key;
   CustomTextFormField({
+    this.key,
     this.hintText,
     this.validator
 });
-
+  void reset(){
+    content.text = "";
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: TextFormField(
         validator: this.validator,
+        controller: content,
         decoration: InputDecoration(
           hintText: hintText,
           contentPadding: EdgeInsets.all(12),
