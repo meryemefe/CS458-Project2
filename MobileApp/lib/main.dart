@@ -9,6 +9,7 @@ void main() {
 }
 
 class SurveyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +20,9 @@ class SurveyApp extends StatelessWidget {
           ),
           backgroundColor: Colors.lightGreen,
         ),
-        body: SurveyForm(),
+        body: SingleChildScrollView(
+          child: SurveyForm()
+        ),
       ),
     );
   }
@@ -28,34 +31,20 @@ class SurveyApp extends StatelessWidget {
 class SurveyForm extends StatefulWidget {
   @override
   _SurveyFormState createState() => _SurveyFormState();
+
+
 }
-
-class DropDown{
-  String defaultValue;
-  List<String> items;
-  final Function validator;
-  DropDown({this.defaultValue, this.validator, this.items});
-}
-
-class CustomDropDown extends StatefulWidget{
-  DropDown content;
-  Key key;
-  CustomDropDown({this.key, this.content});
-  @override
-  _CustomDropDownState createState() => _CustomDropDownState(content);
-}
-
-
 
 class _SurveyFormState extends State<SurveyForm> {
   final _surveyFormKey = GlobalKey<FormState>();
-  bool dataSent = false;
+
   String sendDataLine = "Your data is sent";
+  bool dataSent = false;
 
   GlobalKey<_CustomDropDownState> _genderKey = GlobalKey();
   GlobalKey<_CustomDropDownState> _vaccineKey = GlobalKey();
 
-
+  bool isVisible = false;
 
   void resetForm(List<CustomTextFormField> customForms){
     _surveyFormKey.currentState.reset();
@@ -69,16 +58,6 @@ class _SurveyFormState extends State<SurveyForm> {
   @override
   Widget build(BuildContext context) {
     final halfScreenWidth = MediaQuery.of(context).size.width / 2.0;
-
-
-    DropDown genderDD = new DropDown(
-        defaultValue:'Please select a gender',
-        validator: (String value) =>  (value == 'Please select a gender') ? 'Please select a gender' : null,
-        items: ['Please select a gender','Male', 'Female']);
-    DropDown vaccineDD = new DropDown(
-        defaultValue:'Please select a vaccine',
-        validator: (String value) =>  (value == 'Please select a vaccine') ? 'Please select a vaccine' : null,
-        items: ['Please select a vaccine','China-Coronovac', 'Germany-Pfizer', 'USA-Moderna', 'Turkey-Tarhanovac']);
 
     List<CustomTextFormField> customForms = [];
 
@@ -131,19 +110,15 @@ class _SurveyFormState extends State<SurveyForm> {
         filled: true,
         fillColor: Colors.white,
       ),
-      mode: DateTimeFieldPickerMode.date,
-      autovalidateMode: AutovalidateMode.always,
       validator: (DateTime value) {
         if (value == null) {
-          return null;
-        } else if (value.isAfter(DateTime.now())) {
-          return "Date cannot be future date";
-        } else if (value.isBefore(new DateTime(2021))) {
-          return "Date cannot be before 2021";
+          return "Birth date cannot be empty.";
         } else {
           return null;
         }
       },
+      mode: DateTimeFieldPickerMode.date,
+      autovalidateMode: AutovalidateMode.always,
       onDateSelected: (DateTime value) {
         //print(value);
       },
@@ -151,16 +126,35 @@ class _SurveyFormState extends State<SurveyForm> {
 
     // CITY
 
-    CustomTextFormField cityWidget = new CustomTextFormField( // BURAYA CITY LİSTE ŞEKLİNDE KONULABİLİR VEYA TEXT
+    CustomTextFormField cityWidget = new CustomTextFormField(
       hintText: "City",
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'City cannot be empty.';
-        } else {
-          return null;
-        }
-      },
     );
+
+    // GENDER
+
+    DropDown genderDD = new DropDown(
+        defaultValue:'Please select a gender',
+        validator: (String value) {
+         if (value == 'Please select a gender') {
+           return 'Please select a gender';
+         } else {
+           return null;
+         }
+        },
+        items: ['Please select a gender','Male', 'Female']);
+
+    // VACCINE TYPE
+
+    DropDown vaccineDD = new DropDown(
+        defaultValue:'Please select a vaccine',
+        validator: (String value) {
+          if (value == 'Please select a vaccine') {
+            return 'Please select a vaccine';
+          } else {
+            return null;
+          }
+        },
+        items: ['Please select a vaccine','China-Coronovac', 'Germany-Pfizer', 'USA-Moderna', 'Turkey-Tarhanovac']);
 
     GlobalKey _dataSentKey = GlobalKey();
 
@@ -168,9 +162,16 @@ class _SurveyFormState extends State<SurveyForm> {
     customForms.add(nameWidget);
     customForms.add(surnameWidget);
 
-
     return Form(
       key: _surveyFormKey,
+      onChanged: () {
+        final isValid = _surveyFormKey.currentState.validate();
+        if (isVisible != isValid) {
+          setState(() {
+            isVisible = isValid;
+          });
+        }
+      },
       child: Column(
         children: <Widget>[
           Row (
@@ -195,10 +196,14 @@ class _SurveyFormState extends State<SurveyForm> {
             ),
           ),
 
-          cityWidget,
+          Container(
+              child: cityWidget,
+          ),
+
           CustomDropDown(
               key: _genderKey,
               content: genderDD),
+
           CustomDropDown(
               key: _vaccineKey,
               content: vaccineDD),
@@ -210,25 +215,26 @@ class _SurveyFormState extends State<SurveyForm> {
 //            hintText: "Vaccine type they applied",
 //          ),
 
-          CustomTextFormField( // TEXT BOX BÜYÜTÜLEBİLİR
+          CustomTextFormField(
             hintText: "Side effect after vaccination",
           ),
 
-          MaterialButton( // BUTONA BASINCA SAYFA DEĞİŞİP BAŞARI ŞEKİLDE GÖNDERİLDİ YAZDIRILABİLİR
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(17.0),
-            ),
-            color: Colors.blueAccent,
-            textColor: Colors.white,
-            child: Text(
-              "Send",
-              style: TextStyle(
-                color: Colors.white,
+          Visibility(
+            visible: isVisible,
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(17.0),
               ),
-            ),
-            onPressed: () async {
+              color: Colors.blueAccent,
+              textColor: Colors.white,
+              child: Text(
+                "Send",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () async {
 
-              if (_surveyFormKey.currentState.validate()) {
                 setState(() {
                   dataSent = true;
                   if (_vaccineKey.currentState.chosenValue == 'Germany-Pfizer'){
@@ -242,9 +248,10 @@ class _SurveyFormState extends State<SurveyForm> {
                   }
                   resetForm(customForms);
                 });
-              }
-            },
+              },
+            ),
           ),
+
           Offstage (
             key: _dataSentKey,
             offstage: !dataSent,
@@ -258,6 +265,8 @@ class _SurveyFormState extends State<SurveyForm> {
     );
   }
 }
+
+
 
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
@@ -274,11 +283,13 @@ class CustomTextFormField extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    String _text;
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: TextFormField(
+        onSaved: (str) => _text = str,
+        autovalidateMode: AutovalidateMode.always,
         validator: this.validator,
-        controller: content,
         decoration: InputDecoration(
           hintText: hintText,
           contentPadding: EdgeInsets.all(12),
@@ -291,6 +302,21 @@ class CustomTextFormField extends StatelessWidget {
       ),
     );
   }
+}
+
+class DropDown{
+  String defaultValue;
+  List<String> items;
+  final Function validator;
+  DropDown({this.defaultValue, this.validator, this.items});
+}
+
+class CustomDropDown extends StatefulWidget{
+  DropDown content;
+  Key key;
+  CustomDropDown({this.key, this.content});
+  @override
+  _CustomDropDownState createState() => _CustomDropDownState(content);
 }
 
 class _CustomDropDownState extends State<CustomDropDown> {
@@ -338,6 +364,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   style:TextStyle(color:Colors.black),),
               );
             }).toList(),
+            autovalidateMode: AutovalidateMode.always,
             validator: validator,
             onChanged: (String value) {
               setState(() {

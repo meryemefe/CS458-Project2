@@ -1,10 +1,8 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
-import java.nio.file.FileSystemAlreadyExistsException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -49,7 +47,7 @@ public class Driver {
         driver.getKeyboard().sendKeys(name);
     }
 
-    public void editSurname( String surname){
+    public void editSurname(String surname){
         MobileElement editTextSurname = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(1);
         editTextSurname.click();
         driver.getKeyboard().sendKeys(surname);
@@ -60,15 +58,15 @@ public class Driver {
         dateButton.click();
         MobileElement editDateButton = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Switch to input\"]");
         editDateButton.click();
+        sleep(500L);
         driver.getKeyboard().sendKeys(month + "/" + day + "/" + year);
         MobileElement okTextButton = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"OK\"]");
         okTextButton.click();
     }
 
-    public void editCity( String city){
-        MobileElement editTextCity = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget" +
-                ".FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android" +
-                ".widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[3]");
+    public void editCity(String city){
+        sleep(500L);
+        MobileElement editTextCity = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(2);
         editTextCity.click();
         driver.getKeyboard().sendKeys(city);
     }
@@ -104,11 +102,10 @@ public class Driver {
         }
     }
 
-    public void editSideEffect( String sideEffect){
-        MobileElement edittextSurname = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget" +
-                ".FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android" +
-                ".widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[4]");
-        edittextSurname.click();
+    public void editSideEffect(String sideEffect){
+        sleep(500L);
+        MobileElement editSideEffect = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(3);
+        editSideEffect.click();
         driver.getKeyboard().sendKeys(sideEffect);
     }
 
@@ -124,6 +121,14 @@ public class Driver {
 
     public enum VaccineType {
         PFIZER, CORONOVAC, TARHANOVAC, MODERNA
+    }
+
+    private void sleep(Long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 
