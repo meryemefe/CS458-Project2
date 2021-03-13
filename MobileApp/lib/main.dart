@@ -134,7 +134,9 @@ class _SurveyFormState extends State<SurveyForm> {
       mode: DateTimeFieldPickerMode.date,
       autovalidateMode: AutovalidateMode.always,
       validator: (DateTime value) {
-        if (value.isAfter(DateTime.now())) {
+        if (value == null) {
+          return null;
+        } else if (value.isAfter(DateTime.now())) {
           return "Date cannot be future date";
         } else if (value.isBefore(new DateTime(2021))) {
           return "Date cannot be before 2021";
