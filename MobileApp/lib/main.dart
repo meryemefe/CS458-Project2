@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:html';
-//import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
@@ -38,6 +36,7 @@ class DropDown{
   final Function validator;
   DropDown({this.defaultValue, this.validator, this.items});
 }
+
 class CustomDropDown extends StatefulWidget{
   DropDown content;
   Key key;
@@ -46,66 +45,7 @@ class CustomDropDown extends StatefulWidget{
   _CustomDropDownState createState() => _CustomDropDownState(content);
 }
 
-class _CustomDropDownState extends State<CustomDropDown> {
-  String defaultValue;
-  String chosenValue;
-  Function validator;
-  List<String> items;
 
-  _CustomDropDownState(DropDown _content){
-    defaultValue = _content.defaultValue;
-    chosenValue = _content.defaultValue;
-    validator = _content.validator;
-    items = _content.items;
-  }
-  @override
-  Widget build(BuildContext context){
-    return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>  [Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(4.0),
-          margin: const EdgeInsets.only(left: 10.0, top: 8.0),
-          width: MediaQuery.of(context).size.width - 20,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(color: Colors.black),
-            color: Colors.white,
-          ),
-          child: DropdownButtonFormField<String>(
-            isExpanded: true,
-            focusColor:Colors.white,
-            value: chosenValue,
-            style: TextStyle(color: Colors.white),
-            iconEnabledColor:Colors.black,
-            items: items.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value,style:TextStyle(color:Colors.black),),
-              );
-            }).toList(),
-            validator: validator,
-            onChanged: (String value) {
-              setState(() {
-                chosenValue = value;
-              });
-            },
-          ),
-        ),]
-    );
-  }
-
-  void printValue(){
-    print(chosenValue);
-  }
-
-  void reset(){
-    setState(() {
-      chosenValue = defaultValue;
-    });
-  }
-
-}
 
 class _SurveyFormState extends State<SurveyForm> {
   final _surveyFormKey = GlobalKey<FormState>();
@@ -118,12 +58,14 @@ class _SurveyFormState extends State<SurveyForm> {
 
 
   void resetForm(List<CustomTextFormField> customForms){
+    _surveyFormKey.currentState.reset();
     _genderKey.currentState.reset();
     _vaccineKey.currentState.reset();
     for(CustomTextFormField field in customForms){
       field.reset();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final halfScreenWidth = MediaQuery.of(context).size.width / 2.0;
@@ -136,7 +78,7 @@ class _SurveyFormState extends State<SurveyForm> {
     DropDown vaccineDD = new DropDown(
         defaultValue:'Please select a vaccine',
         validator: (String value) =>  (value == 'Please select a vaccine') ? 'Please select a vaccine' : null,
-        items: ['Please select a vaccine','Germany', 'China', 'US', 'Turkey']);
+        items: ['Please select a vaccine','China-Coronovac', 'Germany-Pfizer', 'USA-Moderna', 'Turkey-Tarhanovac']);
 
     List<CustomTextFormField> customForms = [];
 
@@ -259,21 +201,16 @@ class _SurveyFormState extends State<SurveyForm> {
               if (_surveyFormKey.currentState.validate()) {
                 setState(() {
                   dataSent = true;
-                  if (_vaccineKey.currentState.chosenValue == 'Germany'){
+                  if (_vaccineKey.currentState.chosenValue == 'Germany-Pfizer'){
                     sendDataLine = "Ihre Daten werden gesendet!";
-                  }else if (_vaccineKey.currentState.chosenValue == 'China'){
+                  }else if (_vaccineKey.currentState.chosenValue == 'China-Coronovac'){
                     sendDataLine = "Nín de shùjù yǐ fāsòng!";
-                  }else if (_vaccineKey.currentState.chosenValue == 'Turkey'){
+                  }else if (_vaccineKey.currentState.chosenValue == 'Turkey-Tarhanovac'){
                     sendDataLine = "Bilgileriniz gönderildi!";
                   } else {
                     sendDataLine = "Your data is sent!";
                   }
                   resetForm(customForms);
-                });
-              }else {
-                // invalidate
-                setState(() {
-                  sendDataLine = "";
                 });
               }
             },
@@ -324,4 +261,72 @@ class CustomTextFormField extends StatelessWidget {
       ),
     );
   }
+}
+
+class _CustomDropDownState extends State<CustomDropDown> {
+  String defaultValue;
+  String chosenValue;
+  Function validator;
+  List<String> items;
+
+  _CustomDropDownState(DropDown _content){
+    defaultValue = _content.defaultValue;
+    chosenValue = _content.defaultValue;
+    validator = _content.validator;
+    items = _content.items;
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            color: Colors.white,
+          ),
+          child: DropdownButtonFormField<String>(
+            isExpanded: true,
+            focusColor:Colors.white,
+            value: chosenValue,
+            style: TextStyle(color: Colors.white),
+            iconEnabledColor:Colors.black,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            items: items.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style:TextStyle(color:Colors.black),),
+              );
+            }).toList(),
+            validator: validator,
+            onChanged: (String value) {
+              setState(() {
+                chosenValue = value;
+              });
+            },
+          ),
+        ),
+    );
+  }
+
+  void printValue(){
+    print(chosenValue);
+  }
+
+  void reset(){
+    setState(() {
+      chosenValue = defaultValue;
+    });
+  }
+
 }

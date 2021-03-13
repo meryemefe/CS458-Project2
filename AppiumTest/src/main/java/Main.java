@@ -8,9 +8,26 @@ public class Main {
     public static void main(String[] args) {
 
         Test tester = new Test();
-        tester.test1();
 
-        LOGGER.log(Level.INFO, "TEST 1 IS COMPLETED");
+        if (tester.TestSuite1()) {
+            LOGGER.log(Level.INFO, "TEST 1 IS COMPLETED");
+        } else {
+            LOGGER.log(Level.INFO, "TEST 1 IS FAILED");
+        }
+
+
+        // TestSuite2()
+        tester.TestSuite2();
+
+        // TestSuite3()
+        tester.TestSuite3();
+
+        // TestSuite4()
+        tester.TestSuite4();
+
+        // TestSuite5()
+        tester.TestSuite5();
+
     }
 
 }

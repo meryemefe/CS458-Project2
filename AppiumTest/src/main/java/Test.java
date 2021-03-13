@@ -1,3 +1,5 @@
+import io.appium.java_client.MobileElement;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,14 +33,83 @@ public class Test {
         }
     }
 
-    public void test1(){
-        driver.editName("temp name");
-        driver.editSurname("temp surname");
-        driver.editCity("temp city");
-        driver.editGender("temp gender");
-        driver.editVaccineType("temp vaccine type");
-        driver.editSideEffect("temp side effect");
+    // Testing with correct inputs
+    public boolean TestSuite1() {
+
+        // Test with correct inputs with tarhanovac
+        driver.editName("Dogukan");
+        driver.editSurname("Kose");
+        driver.editDate(01, 06, 1998);
+        driver.editCity("Usak");
+        driver.editGender(Driver.Gender.MALE);
+        driver.editVaccineType(Driver.VaccineType.TARHANOVAC);
+        driver.editSideEffect("Sweating");
         driver.clickSend();
+
+
+        if (!driver.getDriver().findElementByXPath("//android.view.View[@content-desc=\"Bilgileriniz gönderildi!\"]")
+                               .getTagName().equals("Bilgileriniz gönderildi!")) {
+            LOGGER.warning("Testing with correct inputs with tarnanovac is failed!");
+            return  false;
+        }
+
+        // Test with correct inputs with moderna
+        driver.editName("Dogukan");
+        driver.editSurname("Kose");
+        driver.editDate(01, 06, 1998);
+        driver.editCity("Usak");
+        driver.editGender(Driver.Gender.MALE);
+        driver.editVaccineType(Driver.VaccineType.MODERNA);
+        driver.editSideEffect("Sweating");
+        driver.clickSend();
+
+        if (!driver.getDriver().findElementByXPath("//android.view.View[@content-desc=\"Your data is sent!\"]")
+                               .getTagName().equals("Your data is sent!")) {
+            LOGGER.warning("Testing with correct inputs with moderna is failed!");
+            return  false;
+        }
+
+        // Test with correct inputs with pfizer
+        driver.editName("Dogukan");
+        driver.editSurname("Kose");
+        driver.editDate(01, 06, 1998);
+        driver.editCity("Usak");
+        driver.editGender(Driver.Gender.MALE);
+        driver.editVaccineType(Driver.VaccineType.PFIZER);
+        driver.editSideEffect("Sweating");
+        driver.clickSend();
+
+        if (!driver.getDriver().findElementByXPath("//android.view.View[@content-desc=\"Ihre Daten werden gesendet!\"]")
+                               .getTagName().equals("Ihre Daten werden gesendet!")) {
+            LOGGER.warning("Testing with correct inputs with pfizer is failed!");
+            return  false;
+        }
+
+        return true;
+    }
+
+    // Testing with Empty inputs
+    public boolean TestSuite2() {
+
+        return true;
+    }
+
+    // Testing
+    public boolean TestSuite3() {
+
+        return true;
+    }
+
+    // Testing
+    public boolean TestSuite4() {
+
+        return true;
+    }
+
+    // Testing
+    public boolean TestSuite5() {
+
+        return true;
     }
 
 }
