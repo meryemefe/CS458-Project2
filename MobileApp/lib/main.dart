@@ -82,36 +82,42 @@ class _SurveyFormState extends State<SurveyForm> {
 
     List<CustomTextFormField> customForms = [];
 
+    // NAME
+
     CustomTextFormField nameWidget = new CustomTextFormField(
             hintText: "Name",
             validator: (String value) {
               if (value.isEmpty) {
                 return 'Name cannot be empty.';
+              } else if (value.length == 1) {
+                return "Name cannot be 1\ncharacter.";
+              } else if (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]').hasMatch(value)) {
+                return "Name cannot contain\nnumerical character.";
               } else {
                 return null;
               }
             },
         );
-    CustomTextFormField cityWidget = new CustomTextFormField( // BURAYA CITY LİSTE ŞEKLİNDE KONULABİLİR VEYA TEXT
-      hintText: "City",
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Name cannot be empty.';
-        } else {
-          return null;
-        }
-      },
-    );
+
+    // SURNAME
+
     CustomTextFormField surnameWidget  = new CustomTextFormField(
       hintText: "Surname",
       validator: (String value) {
         if (value.isEmpty) {
           return 'Surname cannot be empty.';
+        } else if (value.length == 1) {
+          return "Surname cannot be 1\ncharacter.";
+        } else if (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]').hasMatch(value)) {
+          return "Surname cannot contain\nnumerical character.";
         } else {
           return null;
         }
       },
     );
+
+    // DATE
+
     FormField dateWidget = new DateTimeFormField(
       decoration: const InputDecoration(
         hintStyle: TextStyle(color: Colors.black45),
@@ -127,12 +133,32 @@ class _SurveyFormState extends State<SurveyForm> {
       ),
       mode: DateTimeFieldPickerMode.date,
       autovalidateMode: AutovalidateMode.always,
-      validator: (e) => (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
+      validator: (DateTime value) {
+        if (value.isAfter(DateTime.now())) {
+          return "Date cannot be future date";
+        } else if (value.isBefore(new DateTime(2021))) {
+          return "Date cannot be before 2021";
+        } else {
+          return null;
+        }
+      },
       onDateSelected: (DateTime value) {
         //print(value);
       },
     );
 
+    // CITY
+
+    CustomTextFormField cityWidget = new CustomTextFormField( // BURAYA CITY LİSTE ŞEKLİNDE KONULABİLİR VEYA TEXT
+      hintText: "City",
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'City cannot be empty.';
+        } else {
+          return null;
+        }
+      },
+    );
 
     GlobalKey _dataSentKey = GlobalKey();
 
@@ -175,15 +201,17 @@ class _SurveyFormState extends State<SurveyForm> {
               key: _vaccineKey,
               content: vaccineDD),
 //          CustomTextFormField(
-//            hintText: "Gender", // BURAYA DROPDOWN KOYULACAK MALE FEMALE OTHER
+//            hintText: "Gender",
 //            validator: null,
 //          ),
-//          CustomTextFormField( // BELLİ AŞI TİPLERİ LİSTE ŞEKLİNDE KOYULABİLİR
+//          CustomTextFormField(
 //            hintText: "Vaccine type they applied",
 //          ),
+
           CustomTextFormField( // TEXT BOX BÜYÜTÜLEBİLİR
             hintText: "Side effect after vaccination",
           ),
+
           MaterialButton( // BUTONA BASINCA SAYFA DEĞİŞİP BAŞARI ŞEKİLDE GÖNDERİLDİ YAZDIRILABİLİR
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(17.0),
