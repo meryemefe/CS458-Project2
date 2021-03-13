@@ -1,12 +1,10 @@
-import io.appium.java_client.MobileElement;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Test {
 
     private static Driver driver;
-    private final static Logger LOGGER = Logger.getLogger(Test.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger(Test.class);
 
     public Test() {
         openApp();
@@ -27,7 +25,7 @@ public class Test {
                     "com.example.covid19_survey_app",
                     "com.example.covid19_survey_app.MainActivity",
                     "http://127.0.0.1:4723/wd/hub");
-            LOGGER.log(Level.INFO, "APPLICATION OPENED");
+            LOGGER.info("APPLICATION OPENED");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +46,7 @@ public class Test {
 
             if (!driver.getDriver().findElementByXPath("//android.view.View[@content-desc=\"Bilgileriniz gönderildi!\"]")
                     .getTagName().equals("Bilgileriniz gönderildi!")) {
-                LOGGER.warning("Testing with correct inputs with tarhanovac is failed!");
+                LOGGER.warn("Testing with correct inputs with tarhanovac is failed!");
                 isTestSuitePassed = false;
             }
             LOGGER.info("Testing with correct inputs with tarhanovac is passed");
@@ -65,7 +63,7 @@ public class Test {
 
             if (!driver.getDriver().findElementByXPath("//android.view.View[@content-desc=\"Your data is sent!\"]")
                                    .getTagName().equals("Your data is sent!")) {
-                LOGGER.warning("Testing with correct inputs with moderna is failed!");
+                LOGGER.warn("Testing with correct inputs with moderna is failed!");
                 isTestSuitePassed = false;
             }
             LOGGER.info("Testing with correct inputs with moderna is passed");
@@ -82,7 +80,7 @@ public class Test {
 
             if (!driver.getDriver().findElementByXPath("//android.view.View[@content-desc=\"Ihre Daten werden gesendet!\"]")
                                    .getTagName().equals("Ihre Daten werden gesendet!")) {
-                LOGGER.warning("Testing with correct inputs with pfizer is failed!");
+                LOGGER.warn("Testing with correct inputs with pfizer is failed!");
                 isTestSuitePassed = false;
             }
             LOGGER.info("Testing with correct inputs with pfizer is passed");

@@ -1,18 +1,18 @@
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
 
-    private final static Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
 
         Test tester = new Test();
 
         if (tester.TestSuite1()) {
-            LOGGER.log(Level.INFO, "TEST 1 IS COMPLETED");
+            LOGGER.info("TEST 1 IS COMPLETED");
         } else {
-            LOGGER.log(Level.INFO, "TEST 1 IS FAILED");
+            LOGGER.info("TEST 1 IS FAILED");
         }
 
 

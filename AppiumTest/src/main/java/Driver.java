@@ -1,14 +1,15 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class Driver {
 
-    private final static Logger LOGGER = Logger.getLogger(Driver.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger(Driver.class);
 
     private AppiumDriver driver;
 
