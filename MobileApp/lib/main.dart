@@ -18,7 +18,7 @@ class SurveyApp extends StatelessWidget {
           title: new Center(
             child: Text("Covid-19 Survey", textAlign: TextAlign.center)
           ),
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Colors.red,
         ),
         body: SingleChildScrollView(
           child: SurveyForm()
@@ -36,8 +36,8 @@ class SurveyForm extends StatefulWidget {
 }
 
 class _SurveyFormState extends State<SurveyForm> {
-  final _surveyFormKey = GlobalKey<FormState>();
 
+  final _surveyFormKey = GlobalKey<FormState>();
   String sendDataLine = "Your data is sent";
   bool dataSent = false;
 
@@ -113,7 +113,10 @@ class _SurveyFormState extends State<SurveyForm> {
       validator: (DateTime value) {
         if (value == null) {
           return "Birth date cannot be empty.";
-        } else {
+        } else if (value.isAfter(DateTime.now())) {
+          return "Birth date cannot be in future.";
+        }
+        else {
           return null;
         }
       },
@@ -128,6 +131,13 @@ class _SurveyFormState extends State<SurveyForm> {
 
     CustomTextFormField cityWidget = new CustomTextFormField(
       hintText: "City",
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please select a city';
+        } else {
+          return null;
+        }
+      },
     );
 
     // GENDER
@@ -218,39 +228,71 @@ class _SurveyFormState extends State<SurveyForm> {
           CustomTextFormField(
             hintText: "Side effect after vaccination",
           ),
+          Row (
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width / 2,
+                child: Container(
+                      child: MaterialButton(
+                          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(17.0),
+                        ),
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        child: Text(
+                          "Clear",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () async {
+                            resetForm(customForms);
+                        },
+                      ),
+                  ),
+                ),
+              Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width / 2,
+                child:  Visibility(
+                  visible: isVisible,
+                  child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(17.0),
+                    ),
+                    color: Colors.green,
+                    textColor: Colors.white,
+                    child: Text(
+                      "Send",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () async {
 
-          Visibility(
-            visible: isVisible,
-            child: MaterialButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(17.0),
-              ),
-              color: Colors.blueAccent,
-              textColor: Colors.white,
-              child: Text(
-                "Send",
-                style: TextStyle(
-                  color: Colors.white,
+                      setState(() {
+                        dataSent = true;
+                        if (_vaccineKey.currentState.chosenValue == 'Germany-Pfizer'){
+                          sendDataLine = "Ihre Daten werden gesendet!";
+                        }else if (_vaccineKey.currentState.chosenValue == 'China-Coronovac'){
+                          sendDataLine = "Nín de shùjù yǐ fāsòng!";
+                        }else if (_vaccineKey.currentState.chosenValue == 'Turkey-Tarhanovac'){
+                          sendDataLine = "Bilgileriniz gönderildi!";
+                        } else {
+                          sendDataLine = "Your data is sent!";
+                        }
+                        resetForm(customForms);
+                      });
+                    },
+                  ),
                 ),
               ),
-              onPressed: () async {
-
-                setState(() {
-                  dataSent = true;
-                  if (_vaccineKey.currentState.chosenValue == 'Germany-Pfizer'){
-                    sendDataLine = "Ihre Daten werden gesendet!";
-                  }else if (_vaccineKey.currentState.chosenValue == 'China-Coronovac'){
-                    sendDataLine = "Nín de shùjù yǐ fāsòng!";
-                  }else if (_vaccineKey.currentState.chosenValue == 'Turkey-Tarhanovac'){
-                    sendDataLine = "Bilgileriniz gönderildi!";
-                  } else {
-                    sendDataLine = "Your data is sent!";
-                  }
-                  resetForm(customForms);
-                });
-              },
-            ),
+            ],
           ),
+
+
 
           Offstage (
             key: _dataSentKey,
@@ -385,5 +427,4 @@ class _CustomDropDownState extends State<CustomDropDown> {
       chosenValue = defaultValue;
     });
   }
-
 }
