@@ -29,8 +29,9 @@ class SurveyApp extends StatelessWidget {
 }
 
 class SurveyForm extends StatefulWidget {
+  GlobalKey<_SurveyFormState> key = GlobalKey();
   @override
-  _SurveyFormState createState() => _SurveyFormState();
+  _SurveyFormState createState() => _SurveyFormState(key);
 
 
 }
@@ -40,11 +41,31 @@ class _SurveyFormState extends State<SurveyForm> {
   final _surveyFormKey = GlobalKey<FormState>();
   String sendDataLine = "Your data is sent";
   bool dataSent = false;
+  GlobalKey<_SurveyFormState> key;
+  _SurveyFormState(GlobalKey<_SurveyFormState> key)
+  {
+    this.key = key;
+  }
 
   GlobalKey<_CustomDropDownState> _genderKey = GlobalKey();
   GlobalKey<_CustomDropDownState> _vaccineKey = GlobalKey();
 
+  List<bool> isValidatedArr = [false, false, false, false, false, false, true];
+
   bool isVisible = false;
+
+  void changeValidateArr(int index, bool val) {
+    print(index);
+    print(val);
+    setState(() {
+      isValidatedArr[index] = val;
+      if (isValidatedArr[0] && isValidatedArr[1] && isValidatedArr[2] && isValidatedArr[3] && isValidatedArr[4] && isValidatedArr[5] && isValidatedArr[6]) {
+        isVisible = true;
+      } else {
+        isVisible = false;
+      }
+    });
+  }
 
   void resetForm(List<CustomTextFormField> customForms){
     _surveyFormKey.currentState.reset();
@@ -52,6 +73,9 @@ class _SurveyFormState extends State<SurveyForm> {
     _vaccineKey.currentState.reset();
     for(CustomTextFormField field in customForms){
       field.reset();
+    }
+    for(int i = 0; i < isValidatedArr.length-1; i++) {
+      changeValidateArr(i, false);
     }
   }
 
@@ -64,6 +88,7 @@ class _SurveyFormState extends State<SurveyForm> {
     // NAME
 
     CustomTextFormField nameWidget = new CustomTextFormField(
+            index: 0,
             hintText: "Name",
             validator: (String value) {
               if (value.isEmpty) {
@@ -76,11 +101,13 @@ class _SurveyFormState extends State<SurveyForm> {
                 return null;
               }
             },
+            form: key,
         );
 
     // SURNAME
 
     CustomTextFormField surnameWidget  = new CustomTextFormField(
+      index: 1,
       hintText: "Surname",
       validator: (String value) {
         if (value.isEmpty) {
@@ -93,6 +120,7 @@ class _SurveyFormState extends State<SurveyForm> {
           return null;
         }
       },
+      form: key,
     );
 
     // DATE
@@ -121,15 +149,23 @@ class _SurveyFormState extends State<SurveyForm> {
         }
       },
       mode: DateTimeFieldPickerMode.date,
-      autovalidateMode: AutovalidateMode.always,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onDateSelected: (DateTime value) {
-        //print(value);
+        if (value == null) {
+        changeValidateArr(2, false);
+        } else if (value.isAfter(DateTime.now())) {
+        changeValidateArr(2, false);
+        }
+        else {
+        changeValidateArr(2, true);
+        }
       },
     );
 
     // CITY
 
     CustomTextFormField cityWidget = new CustomTextFormField(
+      index: 3,
       hintText: "City",
       validator: (String value) {
         if (value.isEmpty) {
@@ -138,6 +174,7 @@ class _SurveyFormState extends State<SurveyForm> {
           return null;
         }
       },
+      form: key,
     );
 
     // GENDER
@@ -174,14 +211,6 @@ class _SurveyFormState extends State<SurveyForm> {
 
     return Form(
       key: _surveyFormKey,
-      onChanged: () {
-        final isValid = _surveyFormKey.currentState.validate();
-        if (isVisible != isValid) {
-          setState(() {
-            isVisible = isValid;
-          });
-        }
-      },
       child: Column(
         children: <Widget>[
           Row (
@@ -211,12 +240,18 @@ class _SurveyFormState extends State<SurveyForm> {
           ),
 
           CustomDropDown(
-              key: _genderKey,
-              content: genderDD),
+            index: 4,
+            key: _genderKey,
+            content: genderDD,
+            form: key,
+          ),
 
           CustomDropDown(
-              key: _vaccineKey,
-              content: vaccineDD),
+            index: 5,
+            key: _vaccineKey,
+            content: vaccineDD,
+            form: key,
+          ),
 //          CustomTextFormField(
 //            hintText: "Gender",
 //            validator: null,
@@ -314,11 +349,15 @@ class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final Function validator;
   var content = TextEditingController();
+  GlobalKey<_SurveyFormState> form;
+  int index;
   Key key;
   CustomTextFormField({
+    this.index,
     this.key,
     this.hintText,
-    this.validator
+    this.validator,
+    this.form
 });
   void reset(){
     content.text = "";
@@ -330,7 +369,10 @@ class CustomTextFormField extends StatelessWidget {
       padding: EdgeInsets.all(8.0),
       child: TextFormField(
         onSaved: (str) => _text = str,
-        autovalidateMode: AutovalidateMode.always,
+        onChanged: (String value) {
+          form.currentState.changeValidateArr(index, this.validator(value) == null);
+        },
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: this.validator,
         decoration: InputDecoration(
           hintText: hintText,
@@ -354,24 +396,30 @@ class DropDown{
 }
 
 class CustomDropDown extends StatefulWidget{
+  int index;
   DropDown content;
+  GlobalKey<_SurveyFormState> form;
   Key key;
-  CustomDropDown({this.key, this.content});
+  CustomDropDown({this.index, this.key, this.content, this.form});
   @override
-  _CustomDropDownState createState() => _CustomDropDownState(content);
+  _CustomDropDownState createState() => _CustomDropDownState(index, content, form);
 }
 
 class _CustomDropDownState extends State<CustomDropDown> {
+  int index;
   String defaultValue;
   String chosenValue;
   Function validator;
   List<String> items;
+  GlobalKey<_SurveyFormState> form;
 
-  _CustomDropDownState(DropDown _content){
+  _CustomDropDownState(int index, DropDown _content, GlobalKey<_SurveyFormState> form){
     defaultValue = _content.defaultValue;
     chosenValue = _content.defaultValue;
     validator = _content.validator;
     items = _content.items;
+    this.form = form;
+    this.index = index;
   }
 
   @override
@@ -406,9 +454,10 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   style:TextStyle(color:Colors.black),),
               );
             }).toList(),
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: validator,
             onChanged: (String value) {
+              form.currentState.changeValidateArr(index, this.validator(value) == null);
               setState(() {
                 chosenValue = value;
               });

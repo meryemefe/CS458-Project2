@@ -123,9 +123,10 @@ public class Test {
 
             if (driver.isSendButtonExist()) {
                 isTestSuitePassed = false;
+                LOGGER.info("Testing with only empty name is failed!");
+            } else {
+                LOGGER.info("Testing with only empty name is passed!");
             }
-
-            LOGGER.info("Testing with only empty name is passed!");
         } catch (ElementNotExistException ex) {
             ex.printStackTrace();
             isTestSuitePassed = false;
@@ -145,9 +146,10 @@ public class Test {
 
             if (driver.isSendButtonExist()) {
                 isTestSuitePassed = false;
+                LOGGER.info("Testing with only empty surname is failed!");
+            } else {
+                LOGGER.info("Testing with only empty surname is passed!");
             }
-
-            LOGGER.info("Testing with only empty surname is passed!");
         } catch (ElementNotExistException ex) {
             ex.printStackTrace();
             isTestSuitePassed = false;
@@ -167,9 +169,12 @@ public class Test {
 
             if (driver.isSendButtonExist()) {
                 isTestSuitePassed = false;
+                LOGGER.info("Testing with only empty date is failed!");
+            } else {
+                LOGGER.info("Testing with only empty date is passed!");
             }
 
-            LOGGER.info("Testing with only empty date is passed!");
+
         } catch (ElementNotExistException ex) {
             ex.printStackTrace();
             isTestSuitePassed = false;
@@ -189,9 +194,10 @@ public class Test {
 
             if (driver.isSendButtonExist()) {
                 isTestSuitePassed = false;
+                LOGGER.info("Testing with only empty city is failed!");
+            } else {
+                LOGGER.info("Testing with only empty city is passed!");
             }
-
-            LOGGER.info("Testing with only empty city is passed!");
         } catch (ElementNotExistException ex) {
             ex.printStackTrace();
             isTestSuitePassed = false;
@@ -211,9 +217,10 @@ public class Test {
 
             if (driver.isSendButtonExist()) {
                 isTestSuitePassed = false;
+                LOGGER.info("Testing with only empty gender is failed!");
+            } else {
+                LOGGER.info("Testing with only empty gender is passed!");
             }
-
-            LOGGER.info("Testing with only empty gender is passed!");
         } catch (ElementNotExistException ex) {
             ex.printStackTrace();
             isTestSuitePassed = false;
@@ -233,15 +240,18 @@ public class Test {
 
             if (driver.isSendButtonExist()) {
                 isTestSuitePassed = false;
+                LOGGER.info("Testing with only empty vaccine type is failed!");
+            } else {
+                LOGGER.info("Testing with only empty vaccine type is passed!");
             }
 
-            LOGGER.info("Testing with only empty vaccine type is passed!");
         } catch (ElementNotExistException ex) {
             ex.printStackTrace();
             isTestSuitePassed = false;
             driver.resetForm();
         }
 
+        driver.resetForm();
 
         // There should not be send button !!!!
 
@@ -250,22 +260,132 @@ public class Test {
 
     // Testing with wrong date, wrong name wrong surname
     public boolean TestSuite3() {
+        boolean isTestSuitePassed = true;
 
         // Test with 1 character name
+        try {
+            driver.editName("t");
+            driver.editSurname("kosele");
+            driver.editDate(5, 15, 1980);
+            driver.editCity("Samsun");
+            driver.editGender(Driver.Gender.FEMALE);
+            driver.editVaccineType(Driver.VaccineType.TARHANOVAC);
+            driver.editSideEffect("something is flying in my stomach");
+
+            if (driver.isSendButtonExist()) {
+                isTestSuitePassed = false;
+                LOGGER.info("Testing with one character name is failed!");
+            } else {
+                LOGGER.info("Testing with one character name is passed!");
+            }
+        } catch (ElementNotExistException ex) {
+            ex.printStackTrace();
+            isTestSuitePassed = false;
+            driver.resetForm();
+        }
+
+        driver.resetForm();
 
         // Test with 1 character surname
+        try {
+            driver.editName("jackson");
+            driver.editSurname("m");
+            driver.editDate(5, 23, 1985);
+            driver.editCity("Antalya");
+            driver.editGender(Driver.Gender.MALE);
+            driver.editVaccineType(Driver.VaccineType.MODERNA);
+            driver.editSideEffect("meh");
+
+            if (driver.isSendButtonExist()) {
+                isTestSuitePassed = false;
+                LOGGER.info("Testing with one character surname is failed!");
+            } else {
+                LOGGER.info("Testing with one character surname is passed!");
+            }
+        } catch (ElementNotExistException ex) {
+            ex.printStackTrace();
+            isTestSuitePassed = false;
+            driver.resetForm();
+        }
+
+        driver.resetForm();
 
         // Test with numerical name
+        try {
+            driver.editName("t12354");
+            driver.editSurname("myNameIsNumber");
+            driver.editDate(5, 15, 1990);
+            driver.editCity("Nigde");
+            driver.editGender(Driver.Gender.MALE);
+            driver.editVaccineType(Driver.VaccineType.PFIZER);
+            driver.editSideEffect("just kidding");
+
+            if (driver.isSendButtonExist()) {
+                isTestSuitePassed = false;
+                LOGGER.info("Testing with numerical name is failed!");
+            } else {
+                LOGGER.info("Testing with numerical name is passed!");
+            }
+        } catch (ElementNotExistException ex) {
+            ex.printStackTrace();
+            isTestSuitePassed = false;
+            driver.resetForm();
+        }
+
+        driver.resetForm();
 
         // Test with numerical surname
+        try {
+            driver.editName("mySurnameIsNumber");
+            driver.editSurname("4233453");
+            driver.editDate(5, 15, 1998);
+            driver.editCity("Aksaray");
+            driver.editGender(Driver.Gender.FEMALE);
+            driver.editVaccineType(Driver.VaccineType.CORONOVAC);
+            driver.editSideEffect("just kidding 2");
+
+            if (driver.isSendButtonExist()) {
+                isTestSuitePassed = false;
+                LOGGER.info("Testing with numerical surname is failed!");
+            } else {
+                LOGGER.info("Testing with numerical surname is passed!");
+            }
+        } catch (ElementNotExistException ex) {
+            ex.printStackTrace();
+            isTestSuitePassed = false;
+            driver.resetForm();
+        }
+
+        driver.resetForm();
 
         // Test with future date
+        try {
+            driver.editName("temp name");
+            driver.editSurname("temp surname");
+            driver.editDate(5, 15, 2024);
+            driver.editCity("Aksaray");
+            driver.editGender(Driver.Gender.FEMALE);
+            driver.editVaccineType(Driver.VaccineType.TARHANOVAC);
+            driver.editSideEffect("I will be born in future");
 
+            if (driver.isSendButtonExist()) {
+                isTestSuitePassed = false;
+                LOGGER.info("Testing with future born date is failed!");
+            } else {
+                LOGGER.info("Testing with future born date is passed!");
+            }
+        } catch (ElementNotExistException ex) {
+            ex.printStackTrace();
+            isTestSuitePassed = false;
+            driver.resetForm();
+        }
 
-        return true;
+        driver.resetForm();
+
+        return isTestSuitePassed;
     }
 
-    // Testing Clear Button
+    // Testing
     public boolean TestSuite4() {
 
         // When clear button clicked all areas should be deleted

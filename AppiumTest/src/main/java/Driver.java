@@ -44,7 +44,7 @@ public class Driver {
     }
 
     public void editName( String name) throws ElementNotExistException {
-        sleep(250L);
+        sleep(100L);
         try {
             MobileElement editTextName = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(0);
             editTextName.click();
@@ -55,7 +55,7 @@ public class Driver {
     }
 
     public void editSurname(String surname) throws ElementNotExistException {
-        sleep(250L);
+        sleep(100L);
         try {
             MobileElement editTextSurname = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(1);
             editTextSurname.click();
@@ -67,6 +67,7 @@ public class Driver {
     }
 
     public void editDate(int month, int day, int year) throws ElementNotExistException {
+        sleep(100L);
         try {
             MobileElement dateButton = (MobileElement) driver.findElementByXPath("//android.view.View[@content-desc=\"Birth Date\"]");
             dateButton.click();
@@ -83,7 +84,7 @@ public class Driver {
     }
 
     public void editCity(String city) throws ElementNotExistException {
-        sleep(250L);
+        sleep(100L);
         try {
             MobileElement editTextCity = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(2);
             editTextCity.click();
@@ -94,7 +95,7 @@ public class Driver {
     }
 
     public void editGender(Gender gender) throws ElementNotExistException {
-        sleep(250L);
+        sleep(100L);
         try {
             MobileElement editTextGender = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Please select a gender\"]");
             editTextGender.click();
@@ -111,7 +112,7 @@ public class Driver {
     }
 
     public void editVaccineType(VaccineType vaccineType) throws ElementNotExistException {
-        sleep(250L);
+        sleep(100L);
         try {
             MobileElement editTextVaccineType = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Please select a vaccine\"]");
             editTextVaccineType.click();
@@ -135,7 +136,7 @@ public class Driver {
     }
 
     public void editSideEffect(String sideEffect) throws ElementNotExistException {
-        sleep(250L);
+        sleep(100L);
         try {
             MobileElement editSideEffect = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(3);
             editSideEffect.click();
@@ -147,7 +148,7 @@ public class Driver {
     }
 
     public void clickSend() throws ElementNotExistException {
-        sleep(250L);
+        sleep(200L);
         try {
             driver.hideKeyboard();
             MobileElement buttonSend = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Send\"]");
@@ -159,7 +160,7 @@ public class Driver {
     }
 
     public void resetForm() {
-        sleep(250L);
+        sleep(200L);
         driver.hideKeyboard();
         MobileElement buttonReset = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Clear\"]");
         buttonReset.click();
@@ -170,7 +171,6 @@ public class Driver {
             MobileElement buttonSend = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Send\"]");
             return true;
         } catch (Exception ex) {
-            LOGGER.info("Send button does not exist");
             return false;
         }
 
