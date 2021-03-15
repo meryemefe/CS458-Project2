@@ -42,6 +42,7 @@ public class Driver {
     public void waitForDriver(){
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
+
     public String getName() throws ElementNotExistException {
         sleep(100L);
         String name = "";
@@ -72,7 +73,7 @@ public class Driver {
         String date = "";
         try {
             MobileElement dateButton = (MobileElement) driver.findElementByXPath("//android.view.View[@content-desc=\"Birth Date\"]");
-            date = dateButton.getAttribute("name");
+            date = dateButton.getAttribute("content-desc");
         } catch (Exception ex) {
             throw new ElementNotExistException("Date Box");
         }
@@ -83,7 +84,7 @@ public class Driver {
         sleep(100L);
         String city = "";
         try {
-            MobileElement editTextCity = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(1);
+            MobileElement editTextCity = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(2);
             city = editTextCity.getText();
         } catch (Exception ex) {
             throw new ElementNotExistException("City Input Box");
@@ -96,7 +97,7 @@ public class Driver {
         String gender = "";
         try {
             MobileElement editTextGender = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Please select a gender\"]");
-            gender = editTextGender.getAttribute("name");
+            gender = editTextGender.getAttribute("content-desc");
         } catch (Exception ex) {
             throw  new ElementNotExistException("Gender Dropdown");
         }
@@ -108,7 +109,7 @@ public class Driver {
         String vaccine = "";
         try {
             MobileElement editTextVaccineType = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Please select a vaccine\"]");
-            vaccine = editTextVaccineType.getAttribute("name");
+            vaccine = editTextVaccineType.getAttribute("content-desc");
         } catch (Exception ex) {
             throw new ElementNotExistException("Vaccine Dropdown");
         }

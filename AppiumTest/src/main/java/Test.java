@@ -398,7 +398,7 @@ public class Test {
             driver.editGender(Driver.Gender.MALE);
             driver.editVaccineType(Driver.VaccineType.TARHANOVAC);
             driver.editSideEffect("None");
-            
+
             driver.resetForm();
 
             String name = driver.getName();
@@ -410,10 +410,10 @@ public class Test {
             String sideEffect = driver.getSideEffect();
 
             if (name.equals("Name") && surname.equals("Surname") &&
-                date.equals("Birth Date") && city.equals("City") && 
-                gender.equals("Please select a gender") &&
-                vaccine.equals("Please select a vaccine") &&
-                sideEffect.equals("Side effect after vaccation")
+                    date.equals("Birth Date") && city.equals("City") &&
+                    gender.equals("Please select a gender") &&
+                    vaccine.equals("Please select a vaccine") &&
+                    sideEffect.equals("Side effect after vaccination")
             )
             {
                 LOGGER.info("Reset button clears all inputs test is passed!");

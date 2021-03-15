@@ -3,7 +3,7 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
-    private final static java.util.logging.Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
 
