@@ -1,6 +1,8 @@
 import Exceptions.ElementNotExistException;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -242,7 +244,18 @@ public class Driver {
         } catch (Exception ex) {
             throw new ElementNotExistException("Send Button");
         }
+    }
 
+    public void deleteName(String name) throws ElementNotExistException {
+        sleep(100L);
+        try {
+            MobileElement editTextName = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(0);
+            editTextName.click();
+            for (int i = 0; i < name.length(); i++)
+                driver.getKeyboard().sendKeys(Keys.BACK_SPACE);
+        } catch (Exception ex) {
+            throw new ElementNotExistException("Name Input");
+        }
     }
 
     public void resetForm() {
@@ -254,12 +267,16 @@ public class Driver {
 
     public boolean isSendButtonExist() {
         try {
+            driver.hideKeyboard();
             MobileElement buttonSend = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Send\"]");
-            return true;
+            if (buttonSend.isDisplayed()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception ex) {
             return false;
         }
-
     }
 
     public enum Gender {

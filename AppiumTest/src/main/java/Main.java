@@ -1,3 +1,4 @@
+import Exceptions.ElementNotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         Test tester = new Test();
-
+        
         if (tester.TestSuite1()) {
             LOGGER.info("TEST SUITE 1 IS COMPLETED");
         } else {
@@ -36,8 +37,13 @@ public class Main {
             LOGGER.info("TEST SUITE 4 IS FAILED");
         }
 
+
         // TestSuite5()
-        tester.TestSuite5();
+        if (tester.TestSuite5()){
+            LOGGER.info("TEST SUITE 5 COMPLETED");
+        } else {
+            LOGGER.info("TEST SUITE 5 IS FAILED");
+        }
 
     }
 

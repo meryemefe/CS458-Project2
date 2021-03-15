@@ -1,4 +1,5 @@
 import Exceptions.ElementNotExistException;
+import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -422,7 +423,7 @@ public class Test {
                 isTestSuitePassed = false;
                 LOGGER.info("Reset button clears all inputs test is failed!");
             }
-        }catch (ElementNotExistException ex) {
+        } catch (ElementNotExistException ex) {
             ex.printStackTrace();
             isTestSuitePassed = false;
             driver.resetForm();
@@ -431,10 +432,49 @@ public class Test {
         return isTestSuitePassed;
     }
 
-    // Testing
+    // Testing visibility of send button and changing input after an input entered
     public boolean TestSuite5() {
 
-        return true;
+        boolean isTestSuitePassed = true;
+
+        try {
+            driver.editName("dorukan");
+            driver.editSurname("temp");
+            driver.editDate(3, 8, 2001);
+            driver.editCity("Osmaniye");
+            driver.editGender(Driver.Gender.MALE);
+            driver.editVaccineType(Driver.VaccineType.TARHANOVAC);
+            driver.editSideEffect("None");
+
+            //check whether send button is visible
+            if (!(driver.isSendButtonExist())) {
+                isTestSuitePassed = false;
+                LOGGER.info("Testing visibility of send button is failed!");
+            } else {
+                driver.deleteName("dorukan");
+
+                //check whether send button is invisible
+                if (driver.isSendButtonExist()) {
+                    isTestSuitePassed = false;
+                    LOGGER.info("Testing visibility of send button is failed!");
+                } else {
+                    driver.editName("Dogukan");
+                    if (!driver.isSendButtonExist()) {
+                        isTestSuitePassed = false;
+                        LOGGER.info("Testing visibility of send button is failed!");
+                    } else {
+                        LOGGER.info("Testing visibility of send button is passed!");
+                    }
+                }
+            }
+
+        } catch (ElementNotExistException ex) {
+            ex.printStackTrace();
+            isTestSuitePassed = false;
+            driver.resetForm();
+        }
+
+        return isTestSuitePassed;
     }
 
 }
