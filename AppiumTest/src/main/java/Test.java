@@ -387,10 +387,48 @@ public class Test {
 
     // Testing
     public boolean TestSuite4() {
-
+        boolean isTestSuitePassed=true;
         // When clear button clicked all areas should be deleted
+        // Fill with random input
+        try {
+            driver.editName("Hamza");
+            driver.editSurname("Pehlivan");
+            driver.editDate(3, 8, 1998);
+            driver.editCity("Konya");
+            driver.editGender(Driver.Gender.MALE);
+            driver.editVaccineType(Driver.VaccineType.TARHANOVAC);
+            driver.editSideEffect("None");
+            
+            driver.resetForm();
 
-        return true;
+            String name = driver.getName();
+            String surname = driver.getSurname();
+            String date = driver.getDate();
+            String city = driver.getCity();
+            String gender = driver.getGender();
+            String vaccine = driver.getVaccineType();
+            String sideEffect = driver.getSideEffect();
+
+            if (name.equals("Name") && surname.equals("Surname") &&
+                date.equals("Birth Date") && city.equals("City") && 
+                gender.equals("Please select a gender") &&
+                vaccine.equals("Please select a vaccine") &&
+                sideEffect.equals("Side effect after vaccation")
+            )
+            {
+                LOGGER.info("Reset button clears all inputs test is passed!");
+            }
+            else {
+                isTestSuitePassed = false;
+                LOGGER.info("Reset button clears all inputs test is failed!");
+            }
+        }catch (ElementNotExistException ex) {
+            ex.printStackTrace();
+            isTestSuitePassed = false;
+            driver.resetForm();
+        }
+
+        return isTestSuitePassed;
     }
 
     // Testing

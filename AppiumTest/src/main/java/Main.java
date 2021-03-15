@@ -3,7 +3,7 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private final static java.util.logging.Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
 
@@ -30,7 +30,11 @@ public class Main {
         }
 
         // TestSuite4()
-        tester.TestSuite4();
+        if (tester.TestSuite4()){
+            LOGGER.info("TEST SUITE 4 COMPLETED");
+        } else {
+            LOGGER.info("TEST SUITE 4 IS FAILED");
+        }
 
         // TestSuite5()
         tester.TestSuite5();

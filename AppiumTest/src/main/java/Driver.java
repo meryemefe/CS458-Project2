@@ -42,6 +42,91 @@ public class Driver {
     public void waitForDriver(){
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
+    public String getName() throws ElementNotExistException {
+        sleep(100L);
+        String name = "";
+        try {
+            MobileElement editTextName = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(0);
+            name = editTextName.getText();
+        }catch (Exception ex) {
+            throw new ElementNotExistException("Name Input Box");
+        }
+
+        return name;
+    }
+
+    public String getSurname() throws ElementNotExistException{
+        sleep(100L);
+        String surname = "";
+        try {
+            MobileElement editTextSurname = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(1);
+            surname = editTextSurname.getText();
+        } catch (Exception ex) {
+            throw new ElementNotExistException("Surname Input Box");
+        }
+        return surname;
+    }
+
+    public String getDate() throws ElementNotExistException {
+        sleep(100L);
+        String date = "";
+        try {
+            MobileElement dateButton = (MobileElement) driver.findElementByXPath("//android.view.View[@content-desc=\"Birth Date\"]");
+            date = dateButton.getAttribute("name");
+        } catch (Exception ex) {
+            throw new ElementNotExistException("Date Box");
+        }
+        return date;
+    }
+
+    public String getCity() throws ElementNotExistException{
+        sleep(100L);
+        String city = "";
+        try {
+            MobileElement editTextCity = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(1);
+            city = editTextCity.getText();
+        } catch (Exception ex) {
+            throw new ElementNotExistException("City Input Box");
+        }
+        return city;
+    }
+
+    public String getGender() throws ElementNotExistException {
+        sleep(100L);
+        String gender = "";
+        try {
+            MobileElement editTextGender = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Please select a gender\"]");
+            gender = editTextGender.getAttribute("name");
+        } catch (Exception ex) {
+            throw  new ElementNotExistException("Gender Dropdown");
+        }
+        return gender;
+    }
+
+    public String getVaccineType() throws ElementNotExistException {
+        sleep(100L);
+        String vaccine = "";
+        try {
+            MobileElement editTextVaccineType = (MobileElement) driver.findElementByXPath("//android.widget.Button[@content-desc=\"Please select a vaccine\"]");
+            vaccine = editTextVaccineType.getAttribute("name");
+        } catch (Exception ex) {
+            throw new ElementNotExistException("Vaccine Dropdown");
+        }
+
+        return vaccine;
+    }
+
+    public String getSideEffect() throws ElementNotExistException {
+        sleep(100L);
+        String sideEffect = "";
+        try {
+            MobileElement editSideEffect = (MobileElement) driver.findElementsByClassName("android.widget.EditText").get(3);
+            sideEffect = editSideEffect.getText();
+        } catch (Exception ex) {
+            throw new ElementNotExistException("Side Effect Input Box");
+        }
+        return sideEffect;
+    }
 
     public void editName( String name) throws ElementNotExistException {
         sleep(100L);
