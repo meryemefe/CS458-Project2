@@ -3,26 +3,62 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0c70804d-8d98-473e-baed-766f84861f81" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/AppiumTest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AppiumTest.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_15_2021_6_40_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_15_2021_6_40_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/hotswap_agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/DriverIOS.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/TestIOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Driver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Driver$Gender.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Driver$Gender.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Driver$VaccineType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Driver$VaccineType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Driver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Exceptions/AbstractException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Exceptions/AbstractException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Exceptions/ElementNotExistException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Exceptions/ElementNotExistException.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Test.class" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
   </component>
   <component name="ProjectId" id="1pktZ7YgF2uoZ3Th7UsCWvHKkiL" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -38,24 +74,38 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="AppiumTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -66,7 +116,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -83,23 +133,59 @@
       <workItem from="1615827807929" duration="1847000" />
       <workItem from="1615829714576" duration="105000" />
       <workItem from="1615846347639" duration="3861000" />
+      <workItem from="1616160308920" duration="1484000" />
+      <workItem from="1616164428082" duration="9620000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="185" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1616165356943">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="185" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1616165356943" />
+    <state width="941" height="200" key="GridCell.Tab.0.bottom" timestamp="1616174690042">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state width="1398" height="514" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1616173128493" />
+    <state width="941" height="200" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1616174690042" />
+    <state width="941" height="200" key="GridCell.Tab.0.center" timestamp="1616174690041">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state width="1398" height="514" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1616173128491" />
+    <state width="941" height="200" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1616174690041" />
+    <state width="941" height="200" key="GridCell.Tab.0.left" timestamp="1616174690041">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state width="1398" height="514" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1616173128489" />
+    <state width="1398" height="2" key="GridCell.Tab.0.left/0.0.1440.900@0.23.1440.877" timestamp="1616166223538" />
+    <state width="941" height="200" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1616174690041" />
+    <state width="941" height="200" key="GridCell.Tab.0.right" timestamp="1616174690042">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state width="1398" height="514" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1616173128492" />
+    <state width="941" height="200" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1616174690042" />
+    <state x="258" y="112" key="Maven.ArtifactSearchDialog" timestamp="1616160531600">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="258" y="112" key="Maven.ArtifactSearchDialog/0.0.1440.900@0.0.1440.900" timestamp="1616160531600" />
+    <state x="208" y="31" key="SettingsEditor" timestamp="1616164483031">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="208" y="31" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1616164483031" />
   </component>
 </project>
